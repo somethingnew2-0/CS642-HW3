@@ -15,8 +15,10 @@ class User {
   } 
 
   function _checkLogin($username, $password) {
-    $sql = "SELECT Salt FROM Person WHERE Username = '$username'";
+    $quoteduser = $this->db->quote($username);
+    $sql = "SELECT Salt FROM Person WHERE Username = '$quoteduser'";
     $rs = $this->db->executeQuery($sql);
+    if ( !$rs->next() ) return false;   // No such user
     $salt = $rs->getValueByNr(0,0);
     $hashedpassword = md5($password.$salt);
     $sql = "SELECT * FROM Person WHERE " .
@@ -32,13 +34,14 @@ class User {
   } 
 	
   function _addRegistration($username, $password) {
-    $sql = "SELECT PersonID FROM Person WHERE Username='$username'";
+    $quoteduser = $this->db->quote($username);
+    $sql = "SELECT PersonID FROM Person WHERE Username='$quoteduser'";
     $rs = $this->db->executeQuery($sql);
     if( $rs->next() ) return false;  // User already exists
     $salt = substr(md5(rand()), 0, 4);
     $hashedpassword = md5($password.$salt);
     $sql = "INSERT INTO Person (Username, Password, Salt) " .
-           "VALUES ('$username', '$hashedpassword', '$salt')";
+           "VALUES ('$quoteduser', '$hashedpassword', '$salt')";
     $this->db->executeQuery($sql);
     return $this->_checkLogin($username, $password);
   }
@@ -77,7 +80,8 @@ class User {
     $rs = $this->db->executeQuery($sql);
     if ( $rs->next() ) {
       $this->id = $rs->getCurrentValueByName("PersonID");
-      $this->username = $rs->getCurrentValueByName("Username");
+      $this->username = $this->db->quote(
+          $rs->getCurrentValueByName("Username"));
     }
   } 
 }

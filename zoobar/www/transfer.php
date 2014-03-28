@@ -1,10 +1,9 @@
-#!/usr/pubsw/bin/php
 <?php 
   require_once("includes/common.php"); 
   nav_start_outer("Transfer");
   nav_start_inner();
   if($_POST['submission']) {
-    $recipient = $_POST['recipient'];
+    $recipient = $db->quote($_POST['recipient']);
     $zoobars = (int) $_POST['zoobars'];
     $sql = "SELECT Zoobars FROM Person WHERE PersonID=$user->id";
     $rs = $db->executeQuery($sql);

@@ -1,4 +1,3 @@
-#!/usr/pubsw/bin/php
 <?php 
   require_once("includes/common.php"); 
   nav_start_outer("Users");
@@ -8,15 +7,13 @@
   action="<?php echo $_SERVER['PHP_SELF']?>">
  <nobr>User:
  <input type="text" name="user" value="<?php 
-   // Beware: Stripping slashes is equivalent 
-   // to running PHP with magic_quotes_gpc off. 
    echo stripslashes($_GET['user']); 
  ?>" size=10>
  <input type="submit" value="View"></nobr>
 </form>
 <div id="profileheader"><!-- user data appears here --></div>
 <?php 
-  $selecteduser = $_GET['user']; 
+  $selecteduser = $db->quote($_GET['user']); 
   $sql = "SELECT Profile, Username, Zoobars FROM Person " . 
          "WHERE Username='$selecteduser'";
   $rs = $db->executeQuery($sql);

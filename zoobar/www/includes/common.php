@@ -1,16 +1,14 @@
 <?php
 
-// txt-db-api library: http://www.c-worker.ch/txtdbapi/index_eng.php
-require_once("/kunden/homepages/28/d101370615/htdocs/txt-db-api/txt-db-api.php");
 require_once("login.php");
 require_once("auth.php");
 require_once("navigation.php");
-
+require_once("sqlite.php");
 // Allow users to use the back button without reposting data
 header ("Cache-Control: private");
 
 // Init global variables
-$db = new Database("zoobar");
+$db = new Database("/var/zoobar/db/zoobar.db");
 $user = new User($db);
 
 // Check for logout and maybe display login page

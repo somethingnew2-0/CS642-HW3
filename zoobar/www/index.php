@@ -1,4 +1,3 @@
-#!/usr/pubsw/bin/php
 <?php 
   require_once("includes/common.php"); 
   nav_start_outer("Home");
@@ -17,7 +16,7 @@
 <textarea name="profile_update">
 <?php
   if($_POST['profile_submit']) {  // Check for profile submission
-    $profile = $_POST['profile_update'];
+    $profile = $db->quote($_POST['profile_update']);
     $sql = "UPDATE Person SET Profile='$profile' ".
            "WHERE PersonID=$user->id";
     $db->executeQuery($sql);  // Overwrite profile in database
