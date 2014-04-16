@@ -66,7 +66,6 @@ course webpage, which we do by changing the document.location property:
 
 This successfully completes the attack.
 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Attack C
 
